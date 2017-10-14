@@ -1,0 +1,127 @@
+Dim ID As String
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        'Single Data type instead of integer to allow decimals
+
+
+        Dim RR, PIP, PEEP, PACO2 As Single
+        Dim VI As Single
+
+
+
+        'Conditionals to require the user to input digits instead of blank:
+
+        If (tb_rr.Text = "" Or tb_rr.Text = "0") Then
+                RichTextBox1.Text = ("Error! It can't be 0 or empty. Input Respiratory Rate (RR)")
+
+            End If
+
+            If (tb_pip.Text = "" Or tb_pip.Text = "0") Then
+                RichTextBox1.Text =
+                ("Error! It can't be 0 or empty. Input Positive Inspiratory Pressure (PIP)")
+            End If
+
+            If (tb_peep.Text = "" Or tb_peep.Text = "0") Then
+                RichTextBox1.Text = ("Error! It can't be 0 or empty. Input Positive End-Expiratory Pressure (PEEP)")
+
+            End If
+
+            If (tb_paco2.Text = "" Or tb_paco2.Text = "0") Then
+                RichTextBox1.Text = ("Error! It can't be 0 or empty. Input PaCO2 level")
+            End If
+
+        'CALCULATION: 
+
+        'Respiratory Rate
+        RR = tb_rr.Text
+        'Positive Inspiratory Pressure
+        PIP = tb_pip.Text
+        'Positive End-Expiratory Pressure
+        PEEP = tb_peep.Text
+        'PaCO2 level
+        PACO2 = tb_paco2.Text
+
+        'Formula:
+        VI = (RR * (PIP - PEEP) * PACO2) / 1000
+
+        'Ventilation Index Result
+        tb_result.Text = VI
+
+
+    End Sub
+
+
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+
+        tb_rr.Clear()
+        tb_ID.Clear()
+
+        tb_pip.Clear()
+        tb_peep.Clear()
+        tb_paco2.Clear()
+        tb_result.Clear()
+        RichTextBox1.Clear()
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        ' Patient ID
+        tb_ID.Text = ID
+
+        'RadioButtons Info:
+
+        'Input radiobutton.checked logic for different age ranges and breathing per min (bpm) rate
+        If (rd_new.Checked = True) Then
+
+            RichTextBox1.Text = "Newborn's breathing rate acceptable range is between 30 to 40. If way out of range, STOP now and consult your doctor immediately."
+        End If
+
+
+        If (rd_child.Checked = True) Then
+
+            RichTextBox1.Text = "Child's breathing rate acceptable range is between 20 to 30. If way out of range, STOP now and consult your doctor immediately."
+        End If
+        If (rd_teen.Checked = True) Then
+
+            RichTextBox1.Text = "Adolescents's breathing rate acceptable range is between 16 to 19.If way out of range, STOP now and consult your doctor immediately."
+        End If
+        If (rd_adult.Checked = True) Then
+
+            RichTextBox1.Text = " Adult's breathing rate range is between 12 to 20. If way out of range, STOP now and consult your doctor immediately."
+        End If
+
+
+
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        RichTextBox1.Text = ("PATIENT ID: " + tb_ID.Text + "     RESPIRATORY RATE: " + tb_rr.Text + "    PEAK INSPIRATORY RATE: " + tb_pip.Text + "   POSITIVE END-EXPIRATORY RATE: " + tb_peep.Text + "    PARTIAL CO2 LEVELl: " + tb_paco2.Text + "VI RESULT: " + tb_result.Text)
+
+
+    End Sub
+
+
+
+
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        ' Create a SaveFileDialog to request a path and file name to save to.
+        Dim saveFile1 As New SaveFileDialog()
+
+        ' Initialize the SaveFileDialog to specify the RTF extension for the file.
+        saveFile1.DefaultExt = "*.rtf"
+        saveFile1.Filter = "RTF Files|*.rtf"
+
+        ' Determine if the user selected a file name from the saveFileDialog.
+        If (saveFile1.ShowDialog() = System.Windows.Forms.DialogResult.OK) _
+            And (saveFile1.FileName.Length) > 0 Then
+
+            ' Save the contents of the RichTextBox into the file.
+            RichTextBox1.SaveFile(saveFile1.FileName,
+                RichTextBoxStreamType.PlainText)
+        End If
+
+    End Sub
+
+
+End Class
+
